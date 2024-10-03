@@ -1,6 +1,6 @@
 //import { redirect } from '@sveltejs/kit';
 
-import type { MyLocals } from '@/lib/types';
+import type { MyLocals } from '$lib/types';
 
 import type { LayoutServerLoad } from './$types';
 

@@ -1,7 +1,7 @@
 import { type Handle } from '@sveltejs/kit';
 import { locale } from 'svelte-i18n';
 
-import type { MyLocals } from '@/lib/types';
+import type { MyLocals } from '$lib/types';
 
 export const handle: Handle = async ({ event, resolve }) => {
   const pathname = event.url.pathname;
