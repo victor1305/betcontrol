@@ -6,7 +6,7 @@ register('es', () => import('@/lib/locales/es.json'));
 const defaultLocale = 'es';
 
 init({
-  fallbackLocale: 'es',
+  fallbackLocale: defaultLocale,
   initialLocale: getLocaleFromNavigator() || defaultLocale
 });
 

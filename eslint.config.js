@@ -8,8 +8,6 @@ export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   ...svelte.configs['flat/recommended'],
-  prettier,
-  ...svelte.configs['flat/prettier'],
   {
     languageOptions: {
       globals: {
@@ -28,5 +26,43 @@ export default tseslint.config(
   },
   {
     ignores: ['build/', '.svelte-kit/', 'dist/']
-  }
+  },
+  {
+    rules: {
+      semi: ['error', 'always'],
+      'space-before-function-paren': [
+        'error',
+        {
+          anonymous: 'never',
+          named: 'never',
+          asyncArrow: 'always'
+        }
+      ],
+      'no-console': [
+        'error',
+        {
+          allow: ['warn', 'error']
+        }
+      ],
+      'arrow-body-style': ['error', 'as-needed'],
+      'max-lines': [
+        'error',
+        {
+          max: 175,
+          skipBlankLines: true
+        }
+      ]
+    },
+    settings: {
+      'import/internal-regex':
+        '^((@organisms)|(@molecules)|(@atoms)|(@utils)|($lib)|($app)|($env))/.+'
+    }
+  },
+  prettier,
+  {
+    rules: {
+      semi: ['error', 'always']
+    }
+  },
+  ...svelte.configs['flat/prettier']
 );
