@@ -14,4 +14,29 @@ export const load: PageServerLoad = async ({ url, locals }) => {
   };
 };
 
-export const actions = {} satisfies Actions;
+export const actions = {
+  createTipster: async ({ request, locals }) => {
+    const { user } = locals as MyLocals;
+    const formData = await request.formData();
+    const tipsterData = {
+      name: formData.get('tipsterName'),
+      userID: user
+    };
+
+    console.warn(tipsterData);
+
+    // const response = await fetch('/api/tipster', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(tipsterData)
+    // });
+
+    // if (!response.ok) {
+    //   return { error: 'Failed to create tipster' };
+    // }
+
+    return { success: true };
+  }
+} satisfies Actions;

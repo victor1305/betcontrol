@@ -16,7 +16,7 @@
     <div class="flex justify-between items-center">
       <h4>{$t('select-tipster')}</h4>
       <button
-        class="rounded-lg border border-primary100 text-primary100 py-2 px-3 hover:text-neutral0 hover:bg-primary100"
+        class="rounded-lg border border-primary100 text-primary100 py-2 px-3 hover:text-neutral0 hover:bg-primary100 button-primary-transition"
         >{$t('add-tipster')}</button
       >
     </div>

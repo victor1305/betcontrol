@@ -4,5 +4,10 @@
   "configuration": "Configuration",
   "select-bookies": "Select Bookies",
   "select-tipster": "Select Tipster",
-  "add-tipster": "Add Tipster"
+  "add-tipster": "Add Tipster",
+  "login": "Log in",
+  "sign-up": "Sign up",
+  "email": "Email",
+  "password": "Password",
+  "repeat-password": "Repeat password"
 }
