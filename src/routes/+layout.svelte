@@ -1,6 +1,8 @@
 <script lang="ts">
   import '@/app.css';
   import { page } from '$app/stores';
+  
+  import Header from '@/components/molecules/Header.svelte';
 
   const notHeader = /^\/login.*/.test($page.url.pathname);
   $: isProfilePage = $page.url.pathname.startsWith('/profile');
@@ -9,11 +11,9 @@
 
 <div class={`min-h-screen flex flex-col font-themeFont`}>
   {#if !notHeader}
-    <!-- <Header
-      title={companyName}
-      subtitle="Herramienta Smart Data Telco"
+    <Header
       {...{ isProfilePage, pagePath }}
-    /> -->
+    />
   {/if}
   <div class="flex-1">
     <slot />

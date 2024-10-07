@@ -1,3 +1,8 @@
 {
-  "hi": "Hello"
+  "hi": "Hello",
+  "profile": "Profile",
+  "configuration": "Configuration",
+  "select-bookies": "Select Bookies",
+  "select-tipster": "Select Tipster",
+  "add-tipster": "Add Tipster"
 }

@@ -54,9 +54,15 @@ export default tseslint.config(
       ]
     },
     settings: {
-      'import/internal-regex':
-        '^((@organisms)|(@molecules)|(@atoms)|(@utils)|($lib)|($app)|($env))/.+'
-    }
+      'import/resolver': {
+        alias: {
+          map: [
+            ['@', './src'],
+          ],
+          extensions: ['.ts', '.js', '.svelte'],
+        },
+      },
+    },
   },
   prettier,
   {

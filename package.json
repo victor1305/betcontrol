@@ -13,6 +13,7 @@
     "lint:watch": "esw --watch --color --clear {src,test}/*/**/*.svelte"
   },
   "devDependencies": {
+    "@iconify/svelte": "^4.0.2",
     "@sveltejs/adapter-auto": "^3.0.0",
     "@sveltejs/kit": "^2.0.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
@@ -23,6 +24,7 @@
     "autoprefixer": "^10.4.20",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-svelte": "^2.36.0",
     "globals": "^15.0.0",
     "postcss": "^8.4.47",
