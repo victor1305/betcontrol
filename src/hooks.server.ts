@@ -1,33 +1,35 @@
 import { type Handle } from '@sveltejs/kit';
-import { jwtDecode } from 'jwt-decode';
+import jwt from 'jsonwebtoken';
+import type { JwtPayload } from 'jsonwebtoken';
 import { locale } from 'svelte-i18n';
+import { env } from '$env/dynamic/private';
 
 import { checkLoginPage } from '$lib/helpers';
 import type { MyLocals } from '$lib/types';
 
-interface TokenExtendedProps {
-  [key: string]: string;
-}
-
-const validateToken = (cookieSessionToken: string) => {
-  const tokenDecoded = jwtDecode(cookieSessionToken);
-  const { exp } = tokenDecoded;
-  const now = Math.floor(Date.now() / 1000);
-
-  return exp ? now < exp : false;
-};
-
-const getTokenData = (cookieSessionToken: string, field: string) => {
-  const tokenDecoded: TokenExtendedProps = jwtDecode(cookieSessionToken);
-  return tokenDecoded[field] as string;
+const validateToken = (cookieSessionToken: string): JwtPayload | false => {
+  try {
+    const decoded = jwt.verify(cookieSessionToken, env.JWT_SECRET as string);
+    if (typeof decoded === 'object' && decoded !== null) {
+      return decoded as JwtPayload;
+    }
+    return false;
+  } catch (err) {
+    console.error('Token no válido o ha expirado', err);
+    return false;
+  }
 };
 
 export const handle: Handle = async ({ event, resolve }) => {
   const pathname = event.url.pathname;
   const cookieSessionToken = event.cookies.get('sessionToken');
-  const isValidToken = cookieSessionToken
-    ? validateToken(cookieSessionToken)
-    : false;
+  let isValidToken = false;
+  let decodedToken;
+
+  if (cookieSessionToken) {
+    decodedToken = validateToken(cookieSessionToken);
+    isValidToken = !!decodedToken;
+  }
 
   event.locals = {
     ...(event.locals || {}),
@@ -40,12 +42,12 @@ export const handle: Handle = async ({ event, resolve }) => {
       previousPathname: pathname
     } as MyLocals;
   }
-  if (isValidToken) {
+  if (isValidToken && typeof decodedToken === 'object') {
     event.locals = {
       ...(event.locals || {}),
       sessionToken: cookieSessionToken,
-      userId: getTokenData(cookieSessionToken as string, 'userId'),
-      email: getTokenData(cookieSessionToken as string, 'email')
+      userId: decodedToken?.userId,
+      email: decodedToken?.email as string
     } as MyLocals;
   }
 
