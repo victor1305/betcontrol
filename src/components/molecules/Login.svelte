@@ -2,6 +2,8 @@
   import { t } from '$lib/i18n';
   import Icon from '@iconify/svelte';
 
+  export let errorMessage: string;
+
   let passwordVisible = false;
   let email = '';
   let password = '';
@@ -19,6 +21,7 @@
 </script>
 
 <form method="POST" action="?/login">
+  <input class="hidden" id="action" name="action" type="text" value="login" />
   <div class="flex flex-col pb-6">
     <label for="email">{$t('email')}</label>
     <input
@@ -26,6 +29,7 @@
       id="email"
       name="email"
       type="email"
+      autocomplete="email"
       on:input={(e) => handleUpdateInput(e, 'email')}
     />
   </div>
@@ -35,6 +39,7 @@
       class="relative text-neutral150 mt-2 border border-neutral50 rounded-md py-1.5 px-2.5 focus:outline-primary100"
       id="password"
       name="password"
+      autocomplete="current-password"
       type={passwordVisible ? 'text' : 'password'}
       on:input={(e) => handleUpdateInput(e, 'password')}
     />
@@ -52,11 +57,17 @@
       </button>
     {/if}
   </div>
+  {#if errorMessage && (!password.length || !email.length)}
+    <div class="mt-2 text-sm text-red-500">{errorMessage}</div>
+  {/if}
   <div class="mt-5 flex justify-center">
     <button
       disabled={isBtnDisabled}
-      class="rounded-lg border border-primary100 text-primary100 py-2 px-3 hover:text-neutral0 hover:bg-primary100 button-primary-transition"
-      >{$t('login')}</button
+      class={`rounded-lg border py-2 px-3 button-primary-transition ${
+        isBtnDisabled
+          ? 'text-gray-500'
+          : 'border-primary100 text-primary100 hover:text-neutral0 hover:bg-primary100'
+      }`}>{$t('login')}</button
     >
   </div>
 </form>

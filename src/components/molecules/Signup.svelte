@@ -2,6 +2,8 @@
   import { t } from '$lib/i18n';
   import Icon from '@iconify/svelte';
 
+  export let errorMessage: string;
+
   let passwordVisible = false;
   let passwordRepeatVisible = false;
   let email = '';
@@ -20,12 +22,11 @@
   };
 
   $: isBtnDisabled =
-    !password.length || !email.length || !passwordRepeat.length || password !== passwordRepeat;
-
-    // SACAR MENSAJE DE ERROR SI PASSWORD NO COINCIDE
+    !password.length || !email.length || !passwordRepeat.length;
 </script>
 
 <form method="POST" action="?/login">
+  <input class="hidden" id="action" name="action" type="text" value="signup" />
   <div class="flex flex-col pb-6">
     <label for="email">{$t('email')}</label>
     <input
@@ -33,6 +34,7 @@
       id="email"
       name="email"
       type="email"
+      autocomplete="email"
       on:input={(e) => handleUpdateInput(e, 'email')}
     />
   </div>
@@ -43,6 +45,7 @@
       id="password"
       name="password"
       type={passwordVisible ? 'text' : 'password'}
+      autocomplete="new-password"
       on:input={(e) => handleUpdateInput(e, 'password')}
     />
     {#if password.length > 0}
@@ -66,6 +69,7 @@
       id="repeat-password"
       name="repeat-password"
       type={passwordRepeatVisible ? 'text' : 'password'}
+      autocomplete="new-password"
       on:input={(e) => handleUpdateInput(e, 'passwordRepeat')}
     />
     {#if passwordRepeat.length > 0}
@@ -82,11 +86,22 @@
       </button>
     {/if}
   </div>
+  {#if password !== passwordRepeat && passwordRepeat.length > 0 && password.length > 0}
+    <div class="mt-2 text-sm text-red-500">
+      {$t('passwords-do-not-match')}
+    </div>
+  {/if}
+  {#if errorMessage && (!password.length || !email.length || !passwordRepeat.length)}
+    <div class="mt-2 text-sm text-red-500">{errorMessage}</div>
+  {/if}
   <div class="mt-5 flex justify-center">
     <button
       disabled={isBtnDisabled}
-      class="rounded-lg border border-primary100 text-primary100 py-2 px-3 hover:text-neutral0 hover:bg-primary100 button-primary-transition"
-      >{$t('sign-up')}</button
+      class={`rounded-lg border py-2 px-3 button-primary-transition ${
+        isBtnDisabled
+          ? 'text-gray-500'
+          : 'border-primary100 text-primary100 hover:text-neutral0 hover:bg-primary100'
+      }`}>{$t('sign-up')}</button
     >
   </div>
 </form>

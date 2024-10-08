@@ -9,5 +9,9 @@
   "sign-up": "Registrarme",
   "email": "Email",
   "password": "Contraseña",
-  "repeat-password": "Repetir contraseña"
+  "repeat-password": "Repetir contraseña",
+  "passwords-do-not-match": "Las contraseñas no coinciden",
+  "my-account": "Mi cuenta",
+  "config": "Configuración",
+  "logout": "Cerrar sesión"
 }

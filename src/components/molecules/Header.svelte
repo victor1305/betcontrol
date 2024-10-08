@@ -1,42 +1,51 @@
 <script lang="ts">
   import Icon from '@iconify/svelte';
-  import { t } from 'svelte-i18n';
 
   import { goto } from '$app/navigation';
 
-  export let isProfilePage: boolean;
+  import { appName, paths } from '$lib/constants';
+
+  import UserMenu from '@/components/atoms/UserMenu.svelte';
+
   export let pagePath: string;
 
-  let isLoading = false;
-  let isMenuOpen = false;
+  let isUserMenuOpen = false;
   let isMenuPageOpen = false;
 
   const logout = async () => {
-    await fetch('/api/logout', {
-      method: 'POST'
-    });
-
-    location.reload();
+    try {
+      const response = await fetch('/api/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ action: 'logout' })
+      });
+      if (response.ok) {
+        await goto(paths.login);
+      }
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
   };
 
-  const goToProfilePath = async (path: string) => {
-    isLoading = true;
-    isMenuOpen = false;
+  const goToPath = async (path: string) => {
+    isUserMenuOpen = false;
+    isMenuPageOpen = false;
     await goto(path);
-    isLoading = false;
   };
 
   const handleMenuOpen = () => {
-    if (isMenuOpen) {
+    if (isUserMenuOpen) {
       handleMenuClose();
     } else {
-      isMenuOpen = true;
+      isUserMenuOpen = true;
       document.body.addEventListener('click', handleMenuClose);
     }
   };
 
   const handleMenuClose = () => {
-    isMenuOpen = false;
+    isUserMenuOpen = false;
     document.body.removeEventListener('click', handleMenuClose);
   };
 
@@ -57,14 +66,20 @@
 
 <div class="h-[65px] w-full bg-secondary0 flex justify-between items-center px-5 text-primary100">
   <div class="flex items-center">
-    <button on:click|stopPropagation={handleMenuPageOpen} class="text-neutral150 relative text-xl cursor-pointer"
-      ><Icon icon="fa6-solid:bars" /></button
+    <button
+      on:click|stopPropagation={handleMenuPageOpen}
+      class="text-neutral150 relative text-xl cursor-pointer"><Icon icon="fa6-solid:bars" /></button
     >
     <h1 class="pl-4 text-3xl">
-      <button on:click={() => goToProfilePath('/')}>BETCONTROL</button>
+      <button on:click={() => goToPath(paths.home)}>{appName}</button>
     </h1>
   </div>
-  <button on:click|stopPropagation={handleMenuOpen} class="text-neutral150 relative text-xl cursor-pointer"
-    ><Icon icon="fa6-solid:user" /></button
+  <button
+    on:click|stopPropagation={handleMenuOpen}
+    class="text-neutral150 relative text-xl cursor-pointer"><Icon icon="fa6-solid:user" /></button
   >
 </div>
+
+{#if isUserMenuOpen}
+  <UserMenu {...{ logout, goToPath, pagePath }} />
+{/if}

@@ -7,7 +7,7 @@ export async function connectToDatabase(): Promise<Db> {
   const client = new MongoClient(env.MONGO_URI as string);
   if (!db) {
     await client.connect();
-    db = client.db();  // Esto es de tipo `Db`
+    db = client.db('prod');  // Esto es de tipo `Db`
   }
   
   return db;  // Tipado como `Db`

@@ -3,6 +3,10 @@
   import Login from '@/components/molecules/Login.svelte';
   import Signup from '@/components/molecules/Signup.svelte';
 
+  export let form;
+
+  const errorMessage = form?.errors?.message;
+
   $: isLogin = true;
 </script>
 
@@ -12,9 +16,9 @@
 
 <div class="flex flex-col items-center justify-center login-box">
   <div
-    class="min-w-[300px] md:min-w-[400px] max-w-[500px] mx-5 p-5 md:p-8 rounded-xl border border-cardBorderLight shadow-cardShadow"
+    class="min-w-[300px] md:min-w-[400px] max-w-[500px] mx-5 p-5 md:p-8 rounded-xl border border-cardBorderLight shadow-cardShadow text-neutral200"
   >
-    <div class="flex justify-center mb-8">
+    <div class="flex justify-between mb-8">
       <button
         class={`mr-3 font-regular text-xl flex flex-col items-center ${isLogin ? 'text-neutral200' : 'text-neutral50'}`}
         disabled={isLogin}
@@ -31,9 +35,9 @@
       >
     </div>
     {#if isLogin}
-      <Login />
+      <Login {...{ errorMessage}} />
     {:else}
-      <Signup />
+      <Signup {...{ errorMessage}} />
     {/if}
   </div>
 </div>

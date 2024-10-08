@@ -1,22 +1,19 @@
-//import { redirect } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 
+import { paths } from '$lib/constants';
+import { checkLoginPage } from '$lib/helpers';
 import type { MyLocals } from '$lib/types';
 
 import type { LayoutServerLoad } from './$types';
 
 export const load: LayoutServerLoad = ({ locals }) => {
-  // if (
-  //   !(locals as MyLocals).sessionToken &&
-  //   !checkLoginPage((locals as MyLocals).pathname)
-  // ) {
-  //   redirect(307, `/login?previous=${(locals as MyLocals).previousPathname}`);
-  // }
-  // if (
-  //   (locals as MyLocals).sessionToken &&
-  //   checkLoginPage((locals as MyLocals).pathname)
-  // ) {
-  //   redirect(307, '/');
-  // }
-  const userId = (locals as MyLocals).user;
+  const myLocals = locals as MyLocals;
+  if (!myLocals.sessionToken && !checkLoginPage(myLocals.pathname)) {
+    throw redirect(303, `${paths.login}?previous=${myLocals.previousPathname}`);
+  }
+  if (myLocals.sessionToken && checkLoginPage(myLocals.pathname)) {
+    throw redirect(307, paths.home);
+  }
+  const userId = myLocals.userId;
   return { userId };
 };
