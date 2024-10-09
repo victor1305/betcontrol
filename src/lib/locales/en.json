@@ -1,0 +1,17 @@
+{
+  "hi": "Hello",
+  "profile": "Profile",
+  "configuration": "Configuration",
+  "select-bookies": "Select Bookies",
+  "select-tipster": "Select Tipster",
+  "add-tipster": "Add Tipster",
+  "login": "Log in",
+  "sign-up": "Sign up",
+  "email": "Email",
+  "password": "Password",
+  "repeat-password": "Repeat password",
+  "passwords-do-not-match": "Passwords do not match",
+  "my-account": "My account",
+  "config": "Configuration",
+  "logout": "Log out"
+}
