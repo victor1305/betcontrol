@@ -13,5 +13,10 @@
   "passwords-do-not-match": "Passwords do not match",
   "my-account": "My account",
   "config": "Configuration",
-  "logout": "Log out"
+  "logout": "Log out",
+  "confirm-email-title": "Thanks for registering on BETCONTROL!",
+  "confirm-email-text": "We have sent a confirmation email to {email}",
+  "confirm-email-resend-text": "If you haven't received the email, click on the button below",
+  "confirm-email-spam-text": "**Remember to check your spam folder...**",
+  "confirm-email-resend-email-btn": "Resend Email"
 }

@@ -23,7 +23,7 @@ export const actions = {
       userID: userId
     };
 
-    console.warn(tipsterData);
+    console.log(tipsterData);
 
     // const response = await fetch('/api/tipster', {
     //   method: 'POST',
