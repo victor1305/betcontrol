@@ -1,13 +1,17 @@
+import { ObjectId } from 'mongodb';
+
 export interface Tipster {
-  _id?: string;
+  _id?: ObjectId;
   name: string;
-  userID: string;
-  createdAt?: Date;
+  userID: ObjectId;
+  createdAt: Date;
 }
 
 export interface User {
-  _id?: string;
+  _id?: ObjectId;
   email: string;
   role: string;
   password: string;
+  createdAt: Date;
+  isVerified: boolean;
 }
