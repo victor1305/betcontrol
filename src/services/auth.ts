@@ -67,7 +67,6 @@ export const signup = async (email: string, password: string) => {
 export const verifyEmail = async (token: string) => {
   try {
     const decoded = jwt.verify(token, env.JWT_SECRET as string) as JwtPayload;
-
     if (typeof decoded === 'object' && decoded.userId && decoded.email) {
       const result = await usersCollection.updateOne(
         { _id: new ObjectId(decoded.userId as ObjectId) },
@@ -78,8 +77,16 @@ export const verifyEmail = async (token: string) => {
         throw new Error('Failed to verify email');
       }
 
+      const newToken = jwt.sign(
+        { userId: decoded.userId, email: decoded.email, isVerified: true },
+        env.JWT_SECRET as string,
+        {
+          expiresIn: env.JWT_EXPIRES_IN as string
+        }
+      );
+
       await sendConfirmationEmail(decoded.email);
-      return result;
+      return { success: true, token: newToken };
     } else {
       throw new Error('Invalid token payload');
     }

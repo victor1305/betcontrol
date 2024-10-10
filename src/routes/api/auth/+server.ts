@@ -11,11 +11,7 @@ export const GET: RequestHandler = async ({ url }) => {
 
   try {
     const result = await verifyEmail(token);
-    if (result.modifiedCount === 0) {
-      return new Response('User not found or already verified', { status: 400 });
-    }
-
-    return new Response('Email successfully verified!', { status: 200 });
+    return new Response(JSON.stringify(result), { status: 200 });
   } catch (error) {
     return new Response(error as string, { status: 400 });
   }

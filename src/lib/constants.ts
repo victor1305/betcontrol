@@ -4,7 +4,7 @@ export const paths = {
   profile: '/profile',
   profileConfig: '/profile/configuration',
   confirmEmail: '/confirm-email',
-  verifyEmail: '/verify-token'
+  verifyEmail: '/verify-email'
 } as const;
 
 export const appName = 'BETCONTROL';
