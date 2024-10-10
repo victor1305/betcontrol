@@ -1,4 +1,7 @@
 import { redirect } from '@sveltejs/kit';
+
+import { paths } from '$lib/constants';
+
 import type { Actions } from './$types';
 
 export const actions = {
@@ -33,7 +36,7 @@ export const actions = {
     if (response.ok) {
       const result = await response.json();
 
-      if (result.token) {
+      if (result.token && result.isVerified) {
         const expirationDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
         cookies.set('sessionToken', result.token, {
           path: '/',
@@ -43,7 +46,9 @@ export const actions = {
           expires: expirationDate
         });
         const previousPage = url.searchParams.get('previous');
-        throw redirect(303, previousPage || '/profile');
+        throw redirect(303, previousPage || paths.profile);
+      } else {
+        throw redirect(303, `${paths.confirmEmail}?userId=${result.userId}`);
       }
     } else {
       const errorResponse = await response.json();

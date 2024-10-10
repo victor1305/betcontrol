@@ -35,6 +35,11 @@
     await goto(path);
   };
 
+  const handleMenuClose = () => {
+    isUserMenuOpen = false;
+    document.body.removeEventListener('click', handleMenuClose);
+  };
+
   const handleMenuOpen = () => {
     if (isUserMenuOpen) {
       handleMenuClose();
@@ -44,9 +49,9 @@
     }
   };
 
-  const handleMenuClose = () => {
-    isUserMenuOpen = false;
-    document.body.removeEventListener('click', handleMenuClose);
+  const handleMenuPageClose = () => {
+    isMenuPageOpen = false;
+    document.body.removeEventListener('click', handleMenuPageClose);
   };
 
   const handleMenuPageOpen = () => {
@@ -56,11 +61,6 @@
       isMenuPageOpen = true;
       document.body.addEventListener('click', handleMenuPageClose);
     }
-  };
-
-  const handleMenuPageClose = () => {
-    isMenuPageOpen = false;
-    document.body.removeEventListener('click', handleMenuPageClose);
   };
 </script>
 

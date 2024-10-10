@@ -19,14 +19,18 @@
     "@sveltejs/vite-plugin-svelte": "^3.0.0",
     "@types/bcryptjs": "^2.4.6",
     "@types/eslint": "^9.6.0",
+    "@types/eslint__js": "^8.42.3",
+    "@types/eslint-config-prettier": "^6.11.3",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/node": "^22.7.4",
+    "@types/nodemailer": "^6.4.16",
     "@typescript-eslint/eslint-plugin": "^8.8.0",
     "@typescript-eslint/parser": "^8.8.0",
     "autoprefixer": "^10.4.20",
     "eslint": "^9.0.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-import-resolver-alias": "^1.1.2",
+    "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-svelte": "^2.36.0",
     "globals": "^15.0.0",
     "jwt-decode": "^4.0.0",
@@ -46,6 +50,7 @@
     "bcryptjs": "^2.4.3",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.9.0",
+    "nodemailer": "^6.9.15",
     "svelte-i18n": "^4.0.0"
   }
 }

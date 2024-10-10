@@ -3,6 +3,7 @@
   import { beforeNavigate, afterNavigate } from '$app/navigation';
   import { page } from '$app/stores';
 
+  import { checkConfirmEmailPage, checkLoginPage, checkVerifyTokenPage } from '$lib/helpers';
   import { isLoading } from '$lib/stores/loading';
 
   import Header from '@/components/molecules/Header.svelte';
@@ -15,7 +16,11 @@
     isLoading.set(false);
   });
 
-  const notHeader = /^\/login.*/.test($page.url.pathname);
+  const notHeader =
+    checkConfirmEmailPage($page.url.pathname) ||
+    checkVerifyTokenPage($page.url.pathname) ||
+    checkLoginPage($page.url.pathname);
+
   $: pagePath = $page.url.pathname;
 </script>
 

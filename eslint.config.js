@@ -30,6 +30,11 @@ export default tseslint.config(
   {
     rules: {
       semi: ['error', 'always'],
+      '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-explicit-any': 'error',
+      'no-use-before-define': ['error', { functions: false, classes: true }],
+      'no-var': 'error',
+      'prefer-const': 'error',
       'space-before-function-paren': [
         'error',
         {
@@ -56,13 +61,11 @@ export default tseslint.config(
     settings: {
       'import/resolver': {
         alias: {
-          map: [
-            ['@', './src'],
-          ],
-          extensions: ['.ts', '.js', '.svelte'],
-        },
-      },
-    },
+          map: [['@', './src']],
+          extensions: ['.ts', '.js', '.svelte']
+        }
+      }
+    }
   },
   prettier,
   {
