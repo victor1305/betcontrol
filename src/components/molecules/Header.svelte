@@ -3,14 +3,13 @@
 
   import { goto } from '$app/navigation';
 
-  import { appName, paths } from '$lib/constants';
-
+  import PrincipalMenu from '@/components/atoms/PrincipalMenu.svelte';
   import UserMenu from '@/components/atoms/UserMenu.svelte';
 
   export let pagePath: string;
+  export let isPrincipalMenuOpen: boolean;
 
-  let isUserMenuOpen = false;
-  let isMenuPageOpen = false;
+  let isProfileMenuOpen = false;
 
   const logout = async () => {
     try {
@@ -22,7 +21,7 @@
         body: JSON.stringify({ action: 'logout' })
       });
       if (response.ok) {
-        await goto(paths.login);
+        location.reload();
       }
     } catch (error) {
       console.error('Error during logout:', error);
@@ -30,56 +29,51 @@
   };
 
   const goToPath = async (path: string) => {
-    isUserMenuOpen = false;
-    isMenuPageOpen = false;
+    isProfileMenuOpen = false;
+    isPrincipalMenuOpen = false;
     await goto(path);
   };
 
   const handleMenuClose = () => {
-    isUserMenuOpen = false;
+    isProfileMenuOpen = false;
     document.body.removeEventListener('click', handleMenuClose);
   };
 
   const handleMenuOpen = () => {
-    if (isUserMenuOpen) {
+    if (isProfileMenuOpen) {
       handleMenuClose();
     } else {
-      isUserMenuOpen = true;
+      isProfileMenuOpen = true;
       document.body.addEventListener('click', handleMenuClose);
     }
   };
 
   const handleMenuPageClose = () => {
-    isMenuPageOpen = false;
+    isPrincipalMenuOpen = false;
     document.body.removeEventListener('click', handleMenuPageClose);
   };
 
   const handleMenuPageOpen = () => {
-    if (isMenuPageOpen) {
-      handleMenuPageClose();
-    } else {
-      isMenuPageOpen = true;
-      document.body.addEventListener('click', handleMenuPageClose);
-    }
+    isPrincipalMenuOpen = !isPrincipalMenuOpen;
   };
 </script>
 
-<div class="h-[65px] w-full bg-secondary0 flex justify-between items-center px-5 text-primary100">
-  <div class="flex items-center">
-    <button
-      on:click|stopPropagation={handleMenuPageOpen}
-      class="text-neutral150 relative text-xl cursor-pointer"><Icon icon="fa6-solid:bars" /></button
-    >
-    <h1 class="pl-4 text-3xl">
-      <button on:click={() => goToPath(paths.home)}>{appName}</button>
-    </h1>
-  </div>
+<div
+  class={`${isPrincipalMenuOpen ? 'lg:ml-[260px] lg:header-width-max' : 'lg:ml-[80px] lg:header-width-min'} 
+    transition-all duration-300 h-[65px] bg-secondary0 flex justify-between items-center px-5 text-primary100`}
+>
+  <button
+    on:click|stopPropagation={handleMenuPageOpen}
+    class="text-neutral150 relative text-xl cursor-pointer"><Icon icon="fa6-solid:bars" /></button
+  >
   <button
     on:click|stopPropagation={handleMenuOpen}
     class="text-neutral150 relative text-xl cursor-pointer"><Icon icon="fa6-solid:user" /></button
   >
 </div>
 
-{#if isUserMenuOpen}
+{#if isProfileMenuOpen}
   <UserMenu {...{ logout, goToPath, pagePath }} />
 {/if}
+
+<PrincipalMenu bind:isPrincipalMenuOpen {...{ goToPath, pagePath }} />

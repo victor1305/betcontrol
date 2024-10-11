@@ -11,3 +11,11 @@
     border-color 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
 }
+
+.header-width-max {
+  width: calc(100% - 80px);
+}
+
+.header-width-min {
+  width: calc(100% - 260px);
+}
