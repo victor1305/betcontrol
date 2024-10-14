@@ -4,6 +4,17 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+  appearance: textfield;
+}
+
 .button-primary-transition {
   transition:
     color 0.15s ease-in-out,

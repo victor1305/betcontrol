@@ -46,7 +46,9 @@ export const signup = async (email: string, password: string) => {
     password: hashedPassword,
     role: 'user',
     createdAt: new Date(),
-    isVerified: false
+    updatedAt: new Date(),
+    isVerified: false,
+    bookiesSelected: []
   };
 
   const result = await usersCollection.insertOne(newUser);

@@ -21,7 +21,8 @@ export default {
         neutral100: '#5F5F5F',
         neutral150: '#4C5258',
         neutral200: '#212529',
-        cardBorderLight: '#e2e3e4'
+        cardBorderLight: '#e2e3e4',
+        modal: '#0a1e4266'
       }
     }
   },

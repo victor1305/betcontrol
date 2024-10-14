@@ -1,9 +1,13 @@
 <script lang="ts">
-  import { paths } from '@/lib/constants';
   import Icon from '@iconify/svelte';
+  
+  import { paths } from '$lib/constants';
+  import { t } from '$lib/i18n';
 
   export let isPrincipalMenuOpen: boolean;
   export let pagePath: string;
+  export let goToPath: (path: string) => void;
+
   let isHovering = false;
 
   const handleMouseEnter = () => {
@@ -26,11 +30,13 @@
         : '-translate-x-[300px] lg:translate-x-0 lg:w-[80px] lg:border-r lg:border-cardBorderLight lg:z-50 lg:overflow-y-auto'
     }`}
   >
-    <div class={`mt-1 ml-2.5 mb-8 ${isPrincipalMenuOpen || isHovering ? '' : 'lg:hidden'}`}>
+    <div
+      class={`mt-1 ml-2.5 mb-8 transition-all duration-300 ${isPrincipalMenuOpen || isHovering ? '' : 'lg:hidden'}`}
+    >
       <img src="/logo.svg" alt="logo" class="w-[160px] h-[55px]" />
     </div>
     <div
-      class={`${isPrincipalMenuOpen || isHovering ? 'hidden' : 'hidden lg:block lg:flex lg:justify-center lg:mt-4 lg:mb-8'}`}
+      class={`transition-all duration-300 ${isPrincipalMenuOpen || isHovering ? 'hidden' : 'hidden lg:block lg:flex lg:justify-center lg:mt-4 lg:mb-8'}`}
     >
       <img src="/logo-without-text.png" alt="logo" class="w-[30px] h-[31px]" />
     </div>
@@ -41,10 +47,11 @@
         <button
           class={`py-1.5 px-2.5 flex items-center w-full ${!isPrincipalMenuOpen && !isHovering ? 'lg: justify-center' : ''}`}
           disabled={pagePath === paths.home}
+          on:click={() => goToPath(paths.home)}
           ><Icon
             class={`${isPrincipalMenuOpen || isHovering ? 'mr-3' : ''} text-2xl`}
             icon="ph:house-line"
-          /><span class={!isPrincipalMenuOpen && !isHovering ? 'hidden' : ''}>Dashboard</span
+          /><span class={!isPrincipalMenuOpen && !isHovering ? 'hidden' : ''}>{$t('menu-dashboard')}</span
           ></button
         >
       </li>
@@ -54,10 +61,12 @@
         <button
           class={`py-1.5 px-2.5 flex items-center w-full ${!isPrincipalMenuOpen && !isHovering ? 'lg: justify-center' : ''}`}
           disabled={pagePath === paths.bets}
+          on:click={() => goToPath(paths.bets)}
           ><Icon
             class={`${isPrincipalMenuOpen || isHovering ? 'mr-3' : ''} text-2xl`}
             icon="ph:money-wavy"
-          /><span class={!isPrincipalMenuOpen && !isHovering ? 'hidden' : ''}>Apuestas</span></button
+          /><span class={!isPrincipalMenuOpen && !isHovering ? 'hidden' : ''}>{$t('menu-bets')}</span
+          ></button
         >
       </li>
       <li
@@ -66,10 +75,11 @@
         <button
           class={`py-1.5 px-2.5 flex items-center w-full ${!isPrincipalMenuOpen && !isHovering ? 'lg: justify-center' : ''}`}
           disabled={pagePath === paths.bookies}
+          on:click={() => goToPath(paths.bookies)}
           ><Icon
             class={`${isPrincipalMenuOpen || isHovering ? 'mr-3' : ''} text-2xl`}
             icon="ph:bank"
-          /><span class={!isPrincipalMenuOpen && !isHovering ? 'hidden' : ''}>Bookies</span></button
+          /><span class={!isPrincipalMenuOpen && !isHovering ? 'hidden' : ''}>{$t('menu-bookies')}</span></button
         >
       </li>
       <li
@@ -78,10 +88,12 @@
         <button
           class={`py-1.5 px-2.5 flex items-center w-full ${!isPrincipalMenuOpen && !isHovering ? 'lg: justify-center' : ''}`}
           disabled={pagePath === paths.tipsters}
+          on:click={() => goToPath(paths.tipsters)}
           ><Icon
             class={`${isPrincipalMenuOpen || isHovering ? 'mr-3' : ''} text-2xl`}
             icon="icon-park-outline:user-business"
-          /><span class={!isPrincipalMenuOpen && !isHovering ? 'hidden' : ''}>Tipsters</span></button
+          /><span class={!isPrincipalMenuOpen && !isHovering ? 'hidden' : ''}>{$t('menu-tipsters')}</span
+          ></button
         >
       </li>
     </ul>

@@ -11,3 +11,23 @@ export const paths = {
 } as const;
 
 export const appName = 'BETCONTROL';
+
+export const betSports = [
+  'football',
+  'basketball',
+  'baseball',
+  'hockey',
+  'soccer',
+  'tennis',
+  'volleyball',
+  'golf',
+  'racing',
+  'rugby',
+  'cycling',
+  'badminton',
+  'table-tennis',
+  'horse-racing',
+  'boxing',
+  'martial-arts',
+  'others'
+] as const;

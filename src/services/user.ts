@@ -16,3 +16,19 @@ export const getUserData = async (userId: string) => {
 
   return user;
 };
+
+export const updateUserData = async (userId: string, data: Partial<User>) => {
+  try {
+    const result = await usersCollection.updateOne({ _id: new ObjectId(userId) }, { $set: data });
+
+    if (result.modifiedCount === 0) {
+      return new Response('No fields were updated', { status: 400 });
+    }
+
+    return new Response(JSON.stringify({ success: true, message: 'User updated successfully' }), {
+      status: 200
+    });
+  } catch (error) {
+    return new Response(JSON.stringify({ error: (error as Error).message }), { status: 500 });
+  }
+};
