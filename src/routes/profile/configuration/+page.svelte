@@ -10,8 +10,10 @@
   const bookies = data.bookies as Bookie[];
   let bookiesSelected = data.bookiesSelected as ObjectId[];
   let tipsters = data.tipsters as Tipster[];
+  const userId = data.userId as string;
+  const sessionToken = data.sessionToken as string;
 </script>
 
 <div>
-  <ProfileConfig {...{ bookies }} bind:tipsters bind:bookiesSelected />
+  <ProfileConfig {...{ bookies, userId, sessionToken }} bind:tipsters bind:bookiesSelected />
 </div>

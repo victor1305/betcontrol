@@ -8,13 +8,17 @@ const db = await connectToDatabase();
 const usersCollection = db.collection<User>('users');
 
 export const getUserData = async (userId: string) => {
-  const user = await usersCollection.findOne({ _id: new ObjectId(userId) });
+  try {
+    const user = await usersCollection.findOne({ _id: new ObjectId(userId) });
 
-  if (!user) {
-    throw new Error('User not found');
+    if (!user) {
+      throw new Error('User not found');
+    }
+
+    return user;
+  } catch (error) {
+    return new Response(JSON.stringify({ error: (error as Error).message }), { status: 500 });
   }
-
-  return user;
 };
 
 export const updateUserData = async (userId: string, data: Partial<User>) => {

@@ -105,3 +105,15 @@ export const resendEmail = async (email: string, userId: string) => {
   await sendVerificationEmail(email, verificationToken);
   return { success: true };
 };
+
+export const verifyUser = (token: string, userId: string) => {
+  try {
+    const decoded = jwt.verify(token, env.JWT_SECRET) as { userId: string; role: string };
+    if (decoded.userId !== userId && decoded.role !== 'admin') {
+      throw new Error('Unauthorized access');
+    }
+    return decoded;
+  } catch (error) {
+    throw new Error(error as string);
+  }
+};

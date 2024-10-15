@@ -1,16 +1,22 @@
 <script lang="ts">
-  import { t } from '$lib/i18n';
   import Icon from '@iconify/svelte';
 
-  export let show: boolean;
+  import { t } from '$lib/i18n';
+  import type { Tipster } from '$lib/dbModelTypes';
 
-  let name = '' as string;
-  let price = null as number | null;
+  export let show: boolean;
+  export let isEditTipster: boolean;
+  export let tipsterToRemoveOrEdit: Tipster | null | undefined = null;
+
+  let name = tipsterToRemoveOrEdit?.name || ('' as string);
+  let price = tipsterToRemoveOrEdit?.price || (null as number | null);
 
   const closeModal = () => {
     name = '';
     price = null;
     show = false;
+    isEditTipster = false;
+    tipsterToRemoveOrEdit = null
   };
 </script>
 
@@ -19,14 +25,16 @@
     show ? 'flex' : 'hidden'
   }`}
 >
-  <div class="relative bg-neutral0 w-[300px] py-8 px-6 rounded-lg">
+  <div class="relative bg-neutral0 w-[300px] md:w-[400px] lg:w-[500px] py-8 px-6 rounded-lg">
     <button type="button" on:click={closeModal} class="absolute right-3 top-3"
       ><Icon icon="fa6-solid:xmark" /></button
     >
     <h1 class="text-lg text-neutral150 pb-5">
-      {$t('create-tipster-modal-title', { values: { isCreate: true } })}
+      {$t('create-tipster-modal-title', { values: { isCreate: !isEditTipster } })}
     </h1>
     <form method="POST" action="?/createTipster">
+      <input type="hidden" name="tipsterId" value={tipsterToRemoveOrEdit?._id} />
+      <input type="hidden" name="isEdit" value={isEditTipster} />
       <div class="flex flex-col mb-4">
         <label class="text-sm text-neutral200" for="name">{$t('create-tipster-modal-name')}</label>
         <input
@@ -50,9 +58,10 @@
       </div>
       <div class="flex justify-center">
         <button
-          disabled={!name.length}
+          disabled={!name.length ||
+            (tipsterToRemoveOrEdit?.name === name && tipsterToRemoveOrEdit?.price === price)}
           class="rounded-lg border border-primary100 text-primary100 text-sm py-2 px-3 hover:text-neutral0 hover:bg-primary100 button-primary-transition"
-          >{$t('create-tipster-modal-create', { values: { isCreate: true } })}</button
+          >{$t('create-tipster-modal-create', { values: { isCreate: !isEditTipster } })}</button
         >
       </div>
     </form>

@@ -2,7 +2,6 @@
   import Icon from '@iconify/svelte';
 
   export let show: boolean;
-  export let modalWidth: string = '300px';
   export let modalTitle: string = '';
   export let modalText: string = '';
   export let modalConfirmText: string = '';
@@ -20,7 +19,7 @@
     show ? 'flex' : 'hidden'
   }`}
 >
-  <div class="relative bg-neutral0 py-8 px-6 rounded-lg" style={`width: ${modalWidth};`}>
+  <div class="relative bg-neutral0 py-8 px-6 rounded-lg w-[300px] md:w-[400px] lg:w-[500px]">
     <button type="button" on:click={closeModal} class="absolute right-3 top-3"
       ><Icon icon="fa6-solid:xmark" /></button
     >
@@ -28,7 +27,7 @@
       <h1 class="text-lg text-neutral150 pb-5">{modalTitle}</h1>
     {/if}
     {#if modalText}
-      <p class="text-sm text-neutral200">{modalText}</p>
+      <p class="text-sm text-neutral200 text-center">{modalText}</p>
     {/if}
     <div class={`flex justify-center mt-8`}>
       {#if modalCancelText && onCancel}

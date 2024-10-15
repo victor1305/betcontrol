@@ -7,7 +7,7 @@ import type { MyLocals } from '$lib/types';
 import type { PageServerLoad, Actions } from './$types';
 
 export const load: PageServerLoad = async ({ url, locals }) => {
-  const { userId } = locals as MyLocals;
+  const { userId, sessionToken } = locals as MyLocals;
   const userData = await fetch(`${url.origin}/api/user?userId=${userId}`).then((res) => res.json());
   const bookiesResponse = (await fetch(`${url.origin}/api/bookies`).then((res) =>
     res.json()
@@ -21,6 +21,7 @@ export const load: PageServerLoad = async ({ url, locals }) => {
 
   return {
     path: url.pathname,
+    sessionToken,
     bookies,
     bookiesSelected,
     tipsters,
@@ -30,7 +31,7 @@ export const load: PageServerLoad = async ({ url, locals }) => {
 
 export const actions = {
   saveBookies: async ({ url, request, locals }) => {
-    const { userId } = locals as MyLocals;
+    const { userId, sessionToken } = locals as MyLocals;
     const formData = await request.formData();
     const bookiesSelected = formData.getAll('bookiesSelected') as string[];
 
@@ -41,7 +42,8 @@ export const actions = {
     const response = await fetch(`${url.origin}/api/user?userId=${userId}`, {
       method: 'PUT',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sessionToken}`
       },
       body: JSON.stringify({ bookiesSelected })
     });
@@ -53,22 +55,29 @@ export const actions = {
     throw redirect(303, paths.profileConfig);
   },
   createTipster: async ({ request, locals, url }) => {
-    const { userId } = locals as MyLocals;
+    const { userId, sessionToken } = locals as MyLocals;
     const formData = await request.formData();
     const price = formData.get('price') as string;
+    const tipsterId = formData.get('tipsterId') as string;
+    const isEdit = formData.get('isEdit') === 'true';
+
     const tipsterData = {
       name: formData.get('name'),
       userId,
       ...(price ? { price: parseFloat(price) } : {})
     };
 
-    const response = await fetch(`${url.origin}/api/tipsters`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(tipsterData)
-    });
+    const response = await fetch(
+      `${url.origin}/api/tipsters?userId=${userId}${tipsterId !== 'undefined' ? `&tipsterId=${tipsterId}` : ''}`,
+      {
+        method: isEdit ? 'PUT' : 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${sessionToken}`
+        },
+        body: JSON.stringify(tipsterData)
+      }
+    );
 
     if (!response.ok) {
       return { error: 'Failed to create tipster' };

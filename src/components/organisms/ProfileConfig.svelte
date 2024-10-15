@@ -11,9 +11,12 @@
   export let bookies: Bookie[];
   export let tipsters: Tipster[];
   export let bookiesSelected: ObjectId[];
+  export let userId: string;
+  export let sessionToken: string;
 
   let showCreateTipsterModal = false;
   let showConfirmModal = false;
+  let isEditTipster = false;
   let tipsterToRemoveOrEdit: Tipster | null | undefined = null;
 
   const selectTipsterToRemoveOrEdit = (id: ObjectId | undefined, type: 'remove' | 'edit') => {
@@ -22,6 +25,7 @@
     if (type === 'remove') {
       showConfirmModal = true;
     } else {
+      isEditTipster = true;
       showCreateTipsterModal = true;
     }
   };
@@ -35,9 +39,16 @@
     showConfirmModal = false;
 
     try {
-      const response = await fetch(`/api/tipsters?tipsterId=${tipsterToRemoveOrEdit._id}`, {
-        method: 'DELETE'
-      });
+      const response = await fetch(
+        `/api/tipsters?tipsterId=${tipsterToRemoveOrEdit._id}&userId=${userId}`,
+        {
+          method: 'DELETE',
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${sessionToken}`
+          }
+        }
+      );
 
       if (!response.ok) {
         throw new Error('Failed to remove tipster');
@@ -136,7 +147,11 @@
 </div>
 
 {#if showCreateTipsterModal}
-  <CreateTipsterModal bind:show={showCreateTipsterModal} />
+  <CreateTipsterModal
+    bind:show={showCreateTipsterModal}
+    bind:isEditTipster
+    bind:tipsterToRemoveOrEdit
+  />
 {/if}
 
 {#if showConfirmModal}

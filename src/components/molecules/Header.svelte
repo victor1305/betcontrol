@@ -48,11 +48,6 @@
     }
   };
 
-  const handleMenuPageClose = () => {
-    isPrincipalMenuOpen = false;
-    document.body.removeEventListener('click', handleMenuPageClose);
-  };
-
   const handleMenuPageOpen = () => {
     isPrincipalMenuOpen = !isPrincipalMenuOpen;
   };

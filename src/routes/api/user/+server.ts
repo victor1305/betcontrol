@@ -1,7 +1,9 @@
 import { type RequestHandler } from '@sveltejs/kit';
 
-import { getUserData, updateUserData } from '@/services/user';
 import { ObjectId } from 'mongodb';
+
+import { verifyUser } from '@/services/auth';
+import { getUserData, updateUserData } from '@/services/user';
 
 export const GET: RequestHandler = async ({ url }) => {
   const userId = url.searchParams.get('userId');
@@ -24,6 +26,14 @@ export const PUT: RequestHandler = async ({ url, request }) => {
   }
 
   try {
+    const authHeader = request.headers.get('Authorization');
+    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+      throw new Error('No authorization header');
+    }
+
+    const token = authHeader.split(' ')[1];
+    verifyUser(token, userId);
+
     const formData = await request.json();
     formData.updatedAt = new Date();
     if (formData.bookiesSelected) {
