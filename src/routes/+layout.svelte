@@ -21,14 +21,16 @@
     checkVerifyTokenPage($page.url.pathname) ||
     checkLoginPage($page.url.pathname);
 
+  let isPrincipalMenuOpen = false;
+
   $: pagePath = $page.url.pathname;
 </script>
 
 <div class={`min-h-screen flex flex-col font-themeFont`}>
   {#if !notHeader}
-    <Header {...{ pagePath }} />
+    <Header bind:isPrincipalMenuOpen {...{ pagePath }} />
   {/if}
-  <div class="flex-1">
+  <div class={`flex-1 transition-all duration-300 ${isPrincipalMenuOpen ? 'lg:ml-[260px]' : 'lg:ml-[80px]'}`}>
     <slot />
   </div>
   {#if !notHeader}
