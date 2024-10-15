@@ -13,6 +13,8 @@ export interface Tipster {
 export interface User {
   _id?: ObjectId;
   email: string;
+  name?: string;
+  lastname?: string;
   role: string;
   password: string;
   createdAt: Date;
