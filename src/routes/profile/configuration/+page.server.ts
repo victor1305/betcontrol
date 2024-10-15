@@ -80,7 +80,7 @@ export const actions = {
     );
 
     if (!response.ok) {
-      return { error: 'Failed to create tipster' };
+      return { error: `Failed ${isEdit ? 'to update' : 'to create'} tipster` };
     }
 
     throw redirect(303, paths.profileConfig);
