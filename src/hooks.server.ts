@@ -1,6 +1,7 @@
 import { type Handle } from '@sveltejs/kit';
 import jwt from 'jsonwebtoken';
 import type { JwtPayload } from 'jsonwebtoken';
+import { RateLimiterMemory } from 'rate-limiter-flexible';
 import { locale } from 'svelte-i18n';
 import { env } from '$env/dynamic/private';
 
@@ -20,40 +21,52 @@ const validateToken = (cookieSessionToken: string): JwtPayload | false => {
   }
 };
 
+const rateLimiter = new RateLimiterMemory({
+  points: 10,
+  duration: 1
+});
+
 export const handle: Handle = async ({ event, resolve }) => {
-  const pathname = event.url.pathname;
-  const cookieSessionToken = event.cookies.get('sessionToken');
-  let isValidToken = false;
-  let decodedToken;
+  try {
+    await rateLimiter.consume(event.getClientAddress());
 
-  if (cookieSessionToken) {
-    decodedToken = validateToken(cookieSessionToken);
-    isValidToken = !!decodedToken;
-  }
+    const pathname = event.url.pathname;
+    const cookieSessionToken = event.cookies.get('sessionToken');
+    let isValidToken = false;
+    let decodedToken;
 
-  event.locals = {
-    ...(event.locals || {}),
-    pathname: pathname
-  } as MyLocals;
+    if (cookieSessionToken) {
+      decodedToken = validateToken(cookieSessionToken);
+      isValidToken = !!decodedToken;
+    }
 
-  if (!checkLoginPage(pathname)) {
     event.locals = {
       ...(event.locals || {}),
-      previousPathname: pathname
+      pathname: pathname
     } as MyLocals;
-  }
-  if (isValidToken && typeof decodedToken === 'object') {
-    event.locals = {
-      ...(event.locals || {}),
-      sessionToken: cookieSessionToken,
-      userId: decodedToken?.userId,
-      email: decodedToken?.email as string
-    } as MyLocals;
-  }
 
-  const lang = event.request.headers.get('accept-language')?.split(',')[0];
-  if (lang) {
-    locale.set(lang);
+    if (!checkLoginPage(pathname)) {
+      event.locals = {
+        ...(event.locals || {}),
+        previousPathname: pathname
+      } as MyLocals;
+    }
+    if (isValidToken && typeof decodedToken === 'object') {
+      event.locals = {
+        ...(event.locals || {}),
+        sessionToken: cookieSessionToken,
+        userId: decodedToken?.userId,
+        email: decodedToken?.email as string
+      } as MyLocals;
+    }
+
+    const lang = event.request.headers.get('accept-language')?.split(',')[0];
+    if (lang) {
+      locale.set(lang);
+    }
+    return resolve(event);
+  } catch (rateLimiterRes) {
+    console.warn(rateLimiterRes);
+    return new Response('Too Many Requests', { status: 429 });
   }
-  return resolve(event);
 };

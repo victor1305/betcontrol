@@ -46,7 +46,7 @@ export const actions = {
           expires: expirationDate
         });
         const previousPage = url.searchParams.get('previous');
-        throw redirect(303, previousPage || paths.profile);
+        throw redirect(303, previousPage || paths.home);
       } else {
         throw redirect(303, `${paths.confirmEmail}?userId=${result.userId}`);
       }

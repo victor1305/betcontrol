@@ -1,0 +1,1 @@
+<h1>BETS PAGE</h1>
