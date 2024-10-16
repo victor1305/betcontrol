@@ -1,11 +1,16 @@
 <script lang="ts">
   import type { ObjectId } from 'mongodb';
-  
+
   import { t } from '$lib/i18n';
   import type { Bookie } from '$lib/dbModelTypes';
+    import { arraysAreEqual } from '@/lib/utils';
 
   export let bookies: Bookie[];
   export let bookiesSelected: ObjectId[];
+
+  let bookiesSelectedModified = bookiesSelected;
+
+  $: isBtnDisabled = arraysAreEqual(bookiesSelected, bookiesSelectedModified);
 </script>
 
 <h4 class="text-base">{$t('select-bookies')}</h4>
@@ -17,14 +22,17 @@
         {#each bookies as bookie}
           {#if bookie._id}
             <div
-              class={`flex items-center text-sm ${bookiesSelected.includes(bookie._id) ? 'text-neutral200' : 'text-neutral100'}`}
+              class={`flex items-center text-sm 
+              ${
+                bookiesSelectedModified.includes(bookie._id) ? 'text-neutral200' : 'text-neutral100'
+              }`}
             >
               <input
                 class="cursor-pointer accent-primary100 mr-1.5"
                 name="bookiesSelected"
                 id={`bookiesSelected-${bookie._id}`}
                 type="checkbox"
-                bind:group={bookiesSelected}
+                bind:group={bookiesSelectedModified}
                 on:click|stopPropagation={() => {}}
                 value={bookie._id}
               />
@@ -35,9 +43,15 @@
       </div>
       <div class="flex justify-center items-center">
         <button
-          class="rounded-lg border border-primary100 text-primary100 text-sm py-2 px-3 hover:text-neutral0 hover:bg-primary100 button-primary-transition"
-          >{$t('save-changes')}</button
-        >
+          disabled={isBtnDisabled}
+          class={`rounded-lg border text-sm py-2 px-3 button-primary-transition 
+            ${
+              isBtnDisabled
+                ? 'border-neutral100 text-neutral100'
+                : 'border-primary100 text-primary100 hover:text-neutral0 hover:bg-primary100'
+            }`}
+          >{$t('save-changes')}
+        </button>
       </div>
     </form>
   {/if}

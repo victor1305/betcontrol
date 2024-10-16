@@ -7,6 +7,8 @@
   let name: string = user.name || '';
   let lastname: string = user.lastname || '';
   let email: string = user.email;
+
+  $: btnDisabled = !name.length || (user?.name === name && user?.lastname === lastname);
 </script>
 
 <div class="p-4 lg:p-6 text-neutral200">
@@ -51,9 +53,13 @@
       </div>
       <div class="flex justify-center">
         <button
-          disabled={!name.length || (user?.name === name && user?.lastname === lastname)}
-          class="rounded-lg border border-primary100 text-primary100 text-sm py-2 px-3 hover:text-neutral0 hover:bg-primary100 button-primary-transition"
-          >{$t('save-changes')}</button
+          disabled={btnDisabled}
+          class={`rounded-lg text-sm py-2 px-3 button-primary-transition border 
+            ${
+              btnDisabled
+                ? 'border-neutral100 text-neutral100'
+                : 'border-primary100 text-primary100 hover:text-neutral0 hover:bg-primary100'
+            }`}>{$t('save-changes')}</button
         >
       </div>
     </form>

@@ -40,5 +40,6 @@
   "create-tipster-modal-title": "{isCreate, select, true {Nuevo Tipster} other {Editar Tipster}}",
   "create-tipster-modal-name": "Nombre *",
   "create-tipster-modal-price": "Precio (Opcional)",
+  "create-tipster-modal-error": "El nombre no puede estar vacío",
   "create-tipster-modal-create": "{isCreate, select, true {Añadir Tipster} other {Editar Tipster}}"
 }

@@ -16,8 +16,14 @@
     price = null;
     show = false;
     isEditTipster = false;
-    tipsterToRemoveOrEdit = null
+    tipsterToRemoveOrEdit = null;
   };
+
+  $: showError = false;
+
+  $: isDisabled =
+    !name.length ||
+    (tipsterToRemoveOrEdit?.name === name && tipsterToRemoveOrEdit?.price === price);
 </script>
 
 <div
@@ -42,6 +48,7 @@
           type="text"
           id="name"
           name="name"
+          on:input={() => (showError = false)}
           bind:value={name}
         />
       </div>
@@ -56,11 +63,19 @@
           bind:value={price}
         />
       </div>
+      {#if showError && isDisabled}
+        <p class="text-sm text-red-500 mb-5">{$t('create-tipster-modal-error')}</p>
+      {/if}
       <div class="flex justify-center">
         <button
-          disabled={!name.length ||
-            (tipsterToRemoveOrEdit?.name === name && tipsterToRemoveOrEdit?.price === price)}
-          class="rounded-lg border border-primary100 text-primary100 text-sm py-2 px-3 hover:text-neutral0 hover:bg-primary100 button-primary-transition"
+          type={isDisabled ? 'button' : 'submit'}
+          on:click={() => (showError = true)}
+          class={`rounded-lg border text-sm py-2 px-3 button-primary-transition 
+            ${
+              isDisabled
+                ? 'border-neutral100 text-neutral100'
+                : 'border-primary100 text-primary100 hover:text-neutral0 hover:bg-primary100'
+            }`}
           >{$t('create-tipster-modal-create', { values: { isCreate: !isEditTipster } })}</button
         >
       </div>

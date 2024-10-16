@@ -62,12 +62,11 @@
 
 <div class="p-4 lg:p-6 text-neutral200">
   <h1 class="text-neutral150 text-xl">
-    <span class="pr-2">{$t('profile')}</span><span class="border-l border-neutral50 pl-2 text-base"
-      >{$t('configuration')}</span
-    >
+    <span class="pr-2">{$t('profile')}</span>
+    <span class="border-l border-neutral50 pl-2 text-base">{$t('configuration')}</span>
   </h1>
   <div class="my-5 p-4 rounded-xl border border-cardBorderLight shadow-cardShadow">
-    <ConfigurateBookies bind:bookiesSelected {...{ bookies }} />
+    <ConfigurateBookies {...{ bookies, bookiesSelected }} />
   </div>
   <div class="my-5 p-4 rounded-xl border border-cardBorderLight shadow-cardShadow">
     <ManageTipsters bind:showCreateTipsterModal {...{ tipsters, selectTipsterToRemoveOrEdit }} />

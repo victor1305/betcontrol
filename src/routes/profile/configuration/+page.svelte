@@ -9,7 +9,7 @@
   export let data: PageData;
 
   const bookies = data.bookies as Bookie[];
-  let bookiesSelected = data.bookiesSelected as ObjectId[];
+  const bookiesSelected = data.bookiesSelected as ObjectId[];
   let tipsters = data.tipsters as Tipster[];
   const userId = data.userId as string;
   const user = data.user as User;
@@ -22,4 +22,4 @@
   <ProfileHeader {...{ path, user, initials }} />
 </div>
 
-<ProfileConfig {...{ bookies, userId, sessionToken }} bind:tipsters bind:bookiesSelected />
+<ProfileConfig {...{ bookies, userId, sessionToken, bookiesSelected }} bind:tipsters />
