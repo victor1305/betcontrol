@@ -1,6 +1,6 @@
 <script lang="ts">
   import Icon from '@iconify/svelte';
-  
+
   import { paths } from '$lib/constants';
   import { t } from '$lib/i18n';
 
@@ -11,11 +11,15 @@
   let isHovering = false;
 
   const handleMouseEnter = () => {
-    isHovering = true;
+    if (window.innerWidth >= 1024) {
+      isHovering = true;
+    }
   };
 
   const handleMouseLeave = () => {
-    isHovering = false;
+    if (window.innerWidth >= 1024) {
+      isHovering = false;
+    }
   };
 </script>
 
@@ -42,7 +46,7 @@
     </div>
     <ul>
       <li
-        class={`mb-1 ${pagePath === paths.home ? 'text-primary100 bg-primary50' : 'text-neutral100'} hover:text-primary100 hover:bg-primary50`}
+        class={`mb-1 ${pagePath === paths.home ? 'text-primary100 bg-primary50' : 'text-neutral100'} lg:hover:text-primary100 lg:hover:bg-primary50`}
       >
         <button
           class={`py-1.5 px-2.5 flex items-center w-full ${!isPrincipalMenuOpen && !isHovering ? 'lg: justify-center' : ''}`}
@@ -51,12 +55,13 @@
           ><Icon
             class={`${isPrincipalMenuOpen || isHovering ? 'mr-3' : ''} text-2xl`}
             icon="ph:house-line"
-          /><span class={!isPrincipalMenuOpen && !isHovering ? 'hidden' : ''}>{$t('menu-dashboard')}</span
+          /><span class={!isPrincipalMenuOpen && !isHovering ? 'hidden' : ''}
+            >{$t('menu-dashboard')}</span
           ></button
         >
       </li>
       <li
-        class={`mb-1 ${pagePath === paths.bets ? 'text-primary100 bg-primary50' : 'text-neutral100'} hover:text-primary100 hover:bg-primary50`}
+        class={`mb-1 ${pagePath === paths.bets ? 'text-primary100 bg-primary50' : 'text-neutral100'} lg:hover:text-primary100 lg:hover:bg-primary50`}
       >
         <button
           class={`py-1.5 px-2.5 flex items-center w-full ${!isPrincipalMenuOpen && !isHovering ? 'lg: justify-center' : ''}`}
@@ -65,12 +70,13 @@
           ><Icon
             class={`${isPrincipalMenuOpen || isHovering ? 'mr-3' : ''} text-2xl`}
             icon="ph:money-wavy"
-          /><span class={!isPrincipalMenuOpen && !isHovering ? 'hidden' : ''}>{$t('menu-bets')}</span
+          /><span class={!isPrincipalMenuOpen && !isHovering ? 'hidden' : ''}
+            >{$t('menu-bets')}</span
           ></button
         >
       </li>
       <li
-        class={`mb-1 ${pagePath === paths.bookies ? 'text-primary100 bg-primary50' : 'text-neutral100'} hover:text-primary100 hover:bg-primary50`}
+        class={`mb-1 ${pagePath === paths.bookies ? 'text-primary100 bg-primary50' : 'text-neutral100'} lg:hover:text-primary100 lg:hover:bg-primary50`}
       >
         <button
           class={`py-1.5 px-2.5 flex items-center w-full ${!isPrincipalMenuOpen && !isHovering ? 'lg: justify-center' : ''}`}
@@ -79,20 +85,23 @@
           ><Icon
             class={`${isPrincipalMenuOpen || isHovering ? 'mr-3' : ''} text-2xl`}
             icon="ph:bank"
-          /><span class={!isPrincipalMenuOpen && !isHovering ? 'hidden' : ''}>{$t('menu-bookies')}</span></button
+          /><span class={!isPrincipalMenuOpen && !isHovering ? 'hidden' : ''}
+            >{$t('menu-bookies')}</span
+          ></button
         >
       </li>
       <li
-        class={`mb-1 ${pagePath === paths.tipsters ? 'text-primary100 bg-primary50' : 'text-neutral100'} hover:text-primary100 hover:bg-primary50`}
+        class={`mb-1 ${pagePath === paths.tipsters ? 'text-primary100 bg-primary50' : 'text-neutral100'} lg:hover:text-primary100 lg:hover:bg-primary50`}
       >
         <button
-          class={`py-1.5 px-2.5 flex items-center w-full ${!isPrincipalMenuOpen && !isHovering ? 'lg: justify-center' : ''}`}
+          class={`py-1.5 px-2.5 flex items-center w-full ${!isPrincipalMenuOpen && !isHovering ? 'lg:justify-center' : ''}`}
           disabled={pagePath === paths.tipsters}
           on:click={() => goToPath(paths.tipsters)}
           ><Icon
             class={`${isPrincipalMenuOpen || isHovering ? 'mr-3' : ''} text-2xl`}
             icon="icon-park-outline:user-business"
-          /><span class={!isPrincipalMenuOpen && !isHovering ? 'hidden' : ''}>{$t('menu-tipsters')}</span
+          /><span class={!isPrincipalMenuOpen && !isHovering ? 'hidden' : ''}
+            >{$t('menu-tipsters')}</span
           ></button
         >
       </li>

@@ -22,7 +22,6 @@
     checkLoginPage($page.url.pathname);
 
   let isPrincipalMenuOpen = false;
-
   $: pagePath = $page.url.pathname;
 </script>
 

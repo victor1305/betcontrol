@@ -24,7 +24,7 @@
       <button
         disabled={pagePath === paths.profileConfig}
         class={`${pagePath === paths.profileConfig ? 'text-primary100 underline underline-offset-2' : ''} hover:text-primary100 hover:underline hover:underline-offset-2`}
-        on:click={() => goToPath(paths.profileConfig)}>{$t('config')}</button
+        on:click={() => goToPath(paths.profileConfig)}>{$t('configuration')}</button
       >
     </li>
     <hr />
