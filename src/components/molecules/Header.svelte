@@ -3,8 +3,8 @@
 
   import { goto } from '$app/navigation';
 
-  import PrincipalMenu from '@/components/atoms/PrincipalMenu.svelte';
   import UserMenu from '@/components/atoms/UserMenu.svelte';
+  import PrincipalMenu from '@/components/molecules/PrincipalMenu.svelte';
 
   export let pagePath: string;
   export let isPrincipalMenuOpen: boolean;
