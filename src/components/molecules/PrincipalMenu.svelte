@@ -1,9 +1,7 @@
 <script lang="ts">
-  import Icon from '@iconify/svelte';
+  import { menuItems } from '$lib/constants';
 
-  import { paths } from '$lib/constants';
-  import { t } from '$lib/i18n';
-  import PrincipalMenuItem from '../atoms/PrincipalMenuItem.svelte';
+  import PrincipalMenuItem from '@/components/atoms/PrincipalMenuItem.svelte';
 
   export let isPrincipalMenuOpen: boolean;
   export let pagePath: string;
@@ -40,25 +38,19 @@
       <img src="/logo-without-text.png" alt="logo" class="w-[30px] h-[31px]" />
     </div>
     <ul>
-      <PrincipalMenuItem
-        {...{ isHovering, isPrincipalMenuOpen, goToPath, pagePath, destinationPath: paths.home }}
-      />
-
-      <PrincipalMenuItem
-        {...{ isHovering, isPrincipalMenuOpen, goToPath, pagePath, destinationPath: paths.bets }}
-      />
-      <PrincipalMenuItem
-        {...{ isHovering, isPrincipalMenuOpen, goToPath, pagePath, destinationPath: paths.bookies }}
-      />
-      <PrincipalMenuItem
-        {...{
-          isHovering,
-          isPrincipalMenuOpen,
-          goToPath,
-          pagePath,
-          destinationPath: paths.tipsters
-        }}
-      />
+      {#each menuItems as menuItem}
+        <PrincipalMenuItem
+          {...{
+            isHovering,
+            isPrincipalMenuOpen,
+            goToPath,
+            pagePath,
+            destinationPath: menuItem.path,
+            icon: menuItem.icon,
+            text: menuItem.text
+          }}
+        />
+      {/each}
     </ul>
   </aside>
 
@@ -66,5 +58,5 @@
     class={`lg:hidden fixed inset-0 bg-neutral200 transition-opacity duration-300 z-40 
     ${isPrincipalMenuOpen ? 'opacity-60' : 'opacity-0 pointer-events-none'}`}
     on:click={() => (isPrincipalMenuOpen = false)}
-  ></button>
+  />
 </div>

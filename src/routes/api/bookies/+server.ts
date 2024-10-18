@@ -3,12 +3,19 @@ import { type RequestHandler } from '@sveltejs/kit';
 import type { Bookie } from '$lib/dbModelTypes';
 
 import { verifyUser } from '@/services/auth';
-import { createBookie, getBookies } from '@/services/bookies';
+import { createBookie, getBookies, getUserBookiesSelected } from '@/services/bookies';
 
-export const GET: RequestHandler = async () => {
+export const GET: RequestHandler = async ({ url }) => {
+  const userId = url.searchParams.get('userId');
+  const type = url.searchParams.get('type');
   try {
-    const result = await getBookies();
-    return new Response(JSON.stringify(result), { status: 200 });
+    if (type === 'user-bookies-selected') {
+      const result = await getUserBookiesSelected(userId as string);
+      return new Response(JSON.stringify(result), { status: 200 });
+    } else {
+      const result = await getBookies();
+      return new Response(JSON.stringify(result), { status: 200 });
+    }
   } catch (error) {
     return new Response(error as string, { status: 500 });
   }

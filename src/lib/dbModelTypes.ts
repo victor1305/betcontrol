@@ -23,10 +23,6 @@ export interface User {
   updatedAt: Date;
 }
 
-interface BetStatus {
-  status: 'win' | 'lose' | 'pending';
-}
-
 export interface Movement {
   _id?: ObjectId;
   bookie: ObjectId;
@@ -43,7 +39,7 @@ export interface Bet {
   name: string;
   bookie: ObjectId;
   userId: ObjectId;
-  status: BetStatus;
+  status: 'won' | 'lost' | 'pending' | 'canceled';
   tipster?: ObjectId;
   sport: string[];
   isBonus?: boolean;
@@ -63,3 +59,4 @@ export interface Bookie {
   updatedAt: Date;
   createdAt: Date;
 }
+

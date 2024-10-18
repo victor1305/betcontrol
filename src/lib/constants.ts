@@ -1,3 +1,5 @@
+import type { BetDefault } from './types';
+
 export const paths = {
   home: '/',
   login: '/login',
@@ -10,24 +12,47 @@ export const paths = {
   bets: '/bets'
 } as const;
 
-export const appName = 'BETCONTROL';
+export const appName = 'BETCONTROL' as const;
 
 export const betSports = [
   'football',
+  'horse-racing',
+  'tennis',
   'basketball',
+  'racing',
   'baseball',
   'hockey',
-  'soccer',
-  'tennis',
   'volleyball',
   'golf',
-  'racing',
   'rugby',
   'cycling',
   'badminton',
   'table-tennis',
-  'horse-racing',
   'boxing',
   'martial-arts',
   'others'
-] as const;
+] as string[];
+
+export const menuItems = [
+  { icon: 'ph:house-line', text: 'menu-dashboard', path: paths.home },
+  { icon: 'ph:money-wavy', text: 'menu-bets', path: paths.bets },
+  { icon: 'ph:bank', text: 'menu-bookies', path: paths.bookies },
+  { icon: 'icon-park-outline:user-business', text: 'menu-tipsters', path: paths.tipsters }
+];
+
+export const betDefault = {
+  bet: null,
+  bookie: null,
+  odd: null,
+  date: new Date().toISOString().split('T')[0],
+  amount: null,
+  sport: null,
+  isBonus: false,
+  status: 'pending',
+  tipster: null,
+  isLive: false,
+  cashout: false,
+  cashoutPrice: null
+} as BetDefault;
+
+export const statusList = ['pending', 'won', 'lost', 'canceled'] as string[];

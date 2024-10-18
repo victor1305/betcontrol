@@ -1,6 +1,4 @@
 <script lang="ts">
-  import Icon from '@iconify/svelte';
-
   import { t } from '$lib/i18n';
   import type { Tipster } from '$lib/dbModelTypes';
   import BasicModal from '../atoms/BasicModal.svelte';
