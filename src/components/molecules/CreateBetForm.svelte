@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { betDefault, betSports, statusList } from '$lib/constants';
+  import { betSports, statusList } from '$lib/constants';
   import { t } from '$lib/i18n';
   import type { Bookie, Tipster } from '$lib/dbModelTypes';
   import type { BetDefault } from '$lib/types';
