@@ -46,17 +46,7 @@
         </div>
       {/if}
     </div>
-    <div class="mt-4">
-      <input
-        id="isLive"
-        name="isLive"
-        type="checkbox"
-        bind:checked={bet.isLive}
-        class="cursor-pointer accent-primary100 mr-1.5"
-      />
-      <label class="text-sm text-neutral200" for="isLive">{$t('bet-modal-isLive')}</label>
-    </div>
-    <div class="mt-4">
+    <!-- <div class="mt-4">
       <input
         id="isBonus"
         name="isBonus"
@@ -65,6 +55,6 @@
         class="cursor-pointer accent-primary100 mr-1.5"
       />
       <label class="text-sm text-neutral200" for="isBonus">{$t('bet-modal-isBonus')}</label>
-    </div>
+    </div> -->
   {/if}
 </div>

@@ -41,18 +41,23 @@ export const menuItems = [
 ];
 
 export const betDefault = {
-  bet: null,
   bookie: null,
-  odd: null,
   date: new Date().toISOString().split('T')[0],
-  amount: null,
-  sport: null,
-  isBonus: false,
-  status: 'pending',
-  tipster: null,
-  isLive: false,
+  betType: 'simple',
   cashout: false,
-  cashoutPrice: null
+  cashoutPrice: null,
+  tipster: null,
+  isBonus: false,
+  amount: null,
+  event: [
+    {
+      name: null,
+      sport: null,
+      status: 'pending',
+      isLive: false,
+      odd: null
+    }
+  ]
 } as BetDefault;
 
 export const statusList = ['pending', 'won', 'lost', 'canceled'] as string[];

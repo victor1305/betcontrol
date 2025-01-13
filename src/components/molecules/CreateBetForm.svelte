@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { betSports, statusList } from '$lib/constants';
   import { t } from '$lib/i18n';
   import type { Bookie, Tipster } from '$lib/dbModelTypes';
   import type { BetDefault } from '$lib/types';
@@ -7,9 +6,10 @@
   import BetFormMoreOptions from '@/components/atoms/BetFormMoreOptions.svelte';
   import BetFormTipsterOption from '@/components/atoms/BetFormTipsterOption.svelte';
   import FormField from '@/components/atoms/FormField.svelte';
-  import FormSelect from '@/components/atoms/FormSelectString.svelte';
+  import BetSystemOptions from '@/components/molecules/BetSystemOptions.svelte';
+  import CreateBetEvent from '@/components/molecules/CreateBetEvent.svelte';
 
-  export let betType: 'create' | 'edit' = 'create';
+  export let betAction: 'create' | 'edit' = 'create';
   export let bookies: Bookie[];
   export let tipsters: Tipster[];
   export let isEditBet: boolean = false;
@@ -19,8 +19,8 @@
   export let isDisabled: boolean;
 </script>
 
-<form method="POST" action="?/createBet">
-  <input class="hidden" id="action" name="action" type="text" value={betType} />
+<form method="POST" action="?/createBet" class="max-h-[80vh] overflow-y-auto pr-3 custom-scrollbar">
+  <input class="hidden" id="action" name="action" type="text" value={betAction} />
   <div class="flex flex-col pb-4">
     <label class="text-sm text-neutral200" for="bookie">{$t('bet-modal-bookie')}</label>
     <select
@@ -41,40 +41,23 @@
     />
   </div>
   <hr class="mb-4" />
-  <div class="flex flex-col pb-4">
-    <FormSelect
-      bind:value={bet.sport}
-      {...{ id: 'sport', label: 'bet-modal-sport', name: 'sport', formArr: betSports }}
-    />
-  </div>
-  <div class="flex flex-col pb-4">
-    <FormField
-      bind:value={bet.bet}
-      {...{ id: 'bet', label: 'bet-modal-name', name: 'bet', type: 'text' }}
-    />
-  </div>
-  <div class="flex flex-col pb-4">
-    <FormField
-      bind:value={bet.odd}
-      {...{ id: 'odd', label: 'bet-modal-odd', name: 'odd', type: 'text' }}
-    />
-  </div>
+  <CreateBetEvent bind:betEvent={bet.event} />
+  <hr class="mb-4" />
   <div class="flex flex-col pb-4">
     <FormField
       bind:value={bet.amount}
-      {...{ id: 'amount', label: 'bet-modal-amount', name: 'amount', type: 'text' }}
+      {...{ id: 'amount', label: 'bet-modal-amount', name: 'amount', type: 'number' }}
     />
   </div>
   <div class="pb-4">
     <BetFormTipsterOption bind:bet bind:hasTipster {...{ tipsters }} />
   </div>
-  <div class="flex flex-col pb-4">
-    <FormSelect
-      bind:value={bet.status}
-      {...{ id: 'status', label: 'bet-modal-status', name: 'status', formArr: statusList }}
-    />
-  </div>
   <hr class="mb-4" />
+  {#if bet.event.length > 2}
+    <div class="flex flex-col pb-4">
+      <BetSystemOptions bind:bet />
+    </div>
+  {/if}
   <div class="flex flex-col pb-4">
     <BetFormMoreOptions bind:bet />
   </div>
@@ -88,7 +71,7 @@
       class={`rounded-lg border text-sm py-2 px-3 button-primary-transition 
         ${
           isDisabled
-            ? 'border-neutral100 text-neutral100'
+            ? 'border-neutral100 text-neutral100 cursor-default'
             : 'border-primary100 text-primary100 hover:text-neutral0 hover:bg-primary100'
         }`}>{$t('bet-modal-create', { values: { isCreate: !isEditBet } })}</button
     >

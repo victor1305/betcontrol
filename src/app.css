@@ -4,6 +4,31 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
+@layer utilities {
+  .custom-scrollbar {
+    scrollbar-width: thin; /* Firefox: barra delgada */
+    scrollbar-color: #d1d5db transparent; /* Firefox: colores */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 8px; /* Ancho de la barra de desplazamiento */
+    height: 8px; /* Altura de la barra de desplazamiento horizontal */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: #9ca3af; /* Color del "pulgar" de la barra */
+    border-radius: 4px; /* Bordes redondeados */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    background-color: transparent; /* Fondo de la barra */
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-corner {
+    background-color: transparent; /* Esquinas entre scrollbars */
+  }
+}
+
 select {
   background-color: #fff;
 }

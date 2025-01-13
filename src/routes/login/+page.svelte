@@ -35,9 +35,9 @@
       >
     </div>
     {#if isLogin}
-      <Login {...{ errorMessage}} />
+      <Login {...{ errorMessage }} />
     {:else}
-      <Signup {...{ errorMessage}} />
+      <Signup {...{ errorMessage }} />
     {/if}
   </div>
 </div>

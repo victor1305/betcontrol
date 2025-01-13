@@ -23,14 +23,13 @@
     showError = false;
   };
 
-  $: isDisabled =
-    !bet.bookie ||
-    !bet.date ||
-    !bet.sport ||
-    !bet.bet ||
-    !bet.odd ||
-    !bet.amount ||
-    (hasTipster && !bet.tipster);
+  $: isDisabled = !(
+    !!bet.bookie &&
+    !!bet.date &&
+    !!bet.amount &&
+    bet.event.length > 0 &&
+    bet.event.every((event) => !!event.sport && !!event.name && event.odd !== null && event.odd > 0)
+  );
 </script>
 
 <BasicModal {...{ show, closeModal: resetForm }}>
