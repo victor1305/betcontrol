@@ -24,7 +24,7 @@
 </script>
 
 <div>
-  {#each betEvent as event}
+  {#each betEvent as event, index}
     {#if betEvent.length > 1}
       <div class="flex justify-between items-baseline">
         <p class="text-sm text-primary100 font-semibold pb-3">
@@ -45,7 +45,7 @@
         {...{
           id: `sport-${betEvent.indexOf(event)}`,
           label: 'bet-modal-sport',
-          name: 'sport',
+          name: `event[${index}][sport]`,
           formArr: betSports
         }}
       />
@@ -56,7 +56,7 @@
         {...{
           id: `name-${betEvent.indexOf(event)}`,
           label: 'bet-modal-name',
-          name: 'name',
+          name: `event[${index}][name]`,
           type: 'text'
         }}
       />
@@ -67,8 +67,8 @@
         {...{
           id: `odd-${betEvent.indexOf(event)}`,
           label: 'bet-modal-odd',
-          name: 'odd',
-          type: 'text'
+          name: `event[${index}][odd]`,
+          type: 'number'
         }}
       />
     </div>
@@ -78,7 +78,7 @@
         {...{
           id: `status-${betEvent.indexOf(event)}`,
           label: 'bet-modal-status',
-          name: 'status',
+          name: `event[${index}][status]`,
           formArr: statusList
         }}
       />

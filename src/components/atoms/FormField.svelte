@@ -23,6 +23,7 @@
     {id}
     {name}
     type="number"
+    step="0.01"
     autocomplete="on"
     bind:value
   />

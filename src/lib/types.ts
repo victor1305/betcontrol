@@ -7,7 +7,7 @@ export interface MyLocals {
 }
 
 
-interface BetEvent {
+export interface BetEvent {
   name: string | null,
   sport: string | null,
   status: 'won' | 'lost' | 'pending' | 'canceled',
@@ -17,7 +17,6 @@ interface BetEvent {
 
 export interface BetDefault {
   bookie: string | null;
-  betType: 'simple' | 'multiple' | 'system';
   date: string;
   event: BetEvent[];
   amount: number | null;

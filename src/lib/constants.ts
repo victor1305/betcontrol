@@ -43,7 +43,6 @@ export const menuItems = [
 export const betDefault = {
   bookie: null,
   date: new Date().toISOString().split('T')[0],
-  betType: 'simple',
   cashout: false,
   cashoutPrice: null,
   tipster: null,
