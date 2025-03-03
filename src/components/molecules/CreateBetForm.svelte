@@ -64,7 +64,7 @@
   {#if showError && isDisabled}
     <p class="text-sm text-center text-red-500 mb-5">{$t('bet-modal-error')}</p>
   {/if}
-  <div class="mt-5 flex justify-center">
+  <div class="mt-5 mb-1 flex justify-center">
     <button
       type={isDisabled ? 'button' : 'submit'}
       on:click={() => (showError = true)}

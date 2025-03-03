@@ -5,6 +5,7 @@ import type { Bookie, Tipster, User } from '$lib/dbModelTypes';
 import type { MyLocals, BetEvent, BetDefault } from '$lib/types';
 
 import type { PageServerLoad, Actions } from './$types';
+import { getProfit } from '@/lib/utils';
 
 export const load: PageServerLoad = async ({ url, locals }) => {
   const { userId } = locals as MyLocals;
@@ -17,6 +18,7 @@ export const load: PageServerLoad = async ({ url, locals }) => {
   )) as Tipster[];
   const tipsters = tipstersResponse.sort((a, b) => a.name.localeCompare(b.name));
 
+  //console.log(userBookiesResponse)
   return {
     tipsters,
     userBookies: userBookiesResponse.bookies
@@ -64,31 +66,56 @@ export const actions = {
       events.push({
         sport: (event.sport as string) || null,
         name: (event.name as string) || null,
-        odd: (event.odd as number) || null,
-        status: event.status as 'won' | 'lost' | 'pending' | 'canceled',
+        odd: parseFloat(event.odd as string) || null,
+        status: event.status as 'won' | 'lost' | 'pending' | 'void',
         isLive: event.isLive || false
       });
     });
 
-    const betWithEvents: BetDefault = {
-      ...betData,
-      event: events,
-      trixie: null,
-      yankie: null,
-      superyankie: null,
-      heinz: null,
-      superheinz: null,
-      goliat: null,
-      block: null,
-      doubles: null,
-      triples: null,
-      fours: null,
-      fives: null,
-      sixes: null,
-      sevens: null,
-      eights: null
+    const systemBets = {
+      trixie: parseFloat(formData.get('system-trixie') as string) || null,
+      yankie: parseFloat(formData.get('system-yankie') as string) || null,
+      superyankie: parseFloat(formData.get('system-superyankie') as string) || null,
+      heinz: parseFloat(formData.get('system-heinz') as string) || null,
+      superheinz: parseFloat(formData.get('system-superheinz') as string) || null,
+      goliat: parseFloat(formData.get('system-goliat') as string) || null,
+      block: parseFloat(formData.get('system-block') as string) || null,
+      doubles: parseFloat(formData.get('system-doubles') as string) || null,
+      triples: parseFloat(formData.get('system-triples') as string) || null,
+      fours: parseFloat(formData.get('system-fours') as string) || null,
+      fives: parseFloat(formData.get('system-fives') as string) || null,
+      sixes: parseFloat(formData.get('system-sixes') as string) || null,
+      sevens: parseFloat(formData.get('system-sevens') as string) || null,
+      eights: parseFloat(formData.get('system-eights') as string) || null,
     };
 
-    console.log('BET WITH EVENTS', betWithEvents);
+    const betWithEvents: BetDefault = {
+      ...betData,
+      ...systemBets,
+      systemOptions: ((formData.get('system-options') as string) === 'true') as boolean,
+      event: events
+    };
+
+    const profit =  getProfit(betWithEvents);
+
+    const betWithProfit = {
+      ...betWithEvents,
+      profit
+    };
+    
+    const response = await fetch(`${url.origin}/api/bets?userId=${userId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${sessionToken}`
+      },
+      body: JSON.stringify(betWithProfit)
+    });
+
+    if (!response.ok) {
+      return { error: 'Failed to create bet' };
+    }
+
+    throw redirect(303, paths.bets);
   }
 } satisfies Actions;

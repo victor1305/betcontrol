@@ -10,9 +10,9 @@ export interface MyLocals {
 export interface BetEvent {
   name: string | null,
   sport: string | null,
-  status: 'won' | 'lost' | 'pending' | 'canceled',
+  status: 'won' | 'lost' | 'pending' | 'void',
   isLive: boolean,
-  odd: number | null
+  odd: string | number | null
 }
 
 export interface BetDefault {
@@ -24,6 +24,8 @@ export interface BetDefault {
   tipster: string | null;
   cashout: boolean;
   cashoutPrice: number | null;
+  systemOptions: boolean;
+  profit?: number | null;
   // Apuestas específicas por sistemas
   trixie: number | null;
   yankie: number | null;

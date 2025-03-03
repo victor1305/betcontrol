@@ -59,4 +59,4 @@ export const betDefault = {
   ]
 } as BetDefault;
 
-export const statusList = ['pending', 'won', 'lost', 'canceled'] as string[];
+export const statusList = ['pending', 'won', 'lost', 'void'] as string[];

@@ -42,6 +42,7 @@
   </button>
 
   {#if showSystemOptions}
+    <input type="hidden" name="system-options" value={showSystemOptions} />
     <div class="mt-4">
       {#each multipleOptions as option}
         {#if bet.event.length >= option.minLength}

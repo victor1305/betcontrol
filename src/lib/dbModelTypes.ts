@@ -34,21 +34,49 @@ export interface Movement {
   updatedAt: Date;
 }
 
+export interface BetEvent {
+  name: string | null,
+  sport: string | null,
+  status: 'won' | 'lost' | 'pending' | 'void',
+  isLive: boolean,
+  odd: number | null
+}
+
 export interface Bet {
   _id?: ObjectId;
   name: string;
   bookie: ObjectId;
   userId: ObjectId;
-  status: 'won' | 'lost' | 'pending' | 'canceled';
-  tipster?: ObjectId;
-  sport: string[];
-  isBonus?: boolean;
-  amount: number;
-  odds: number;
+  event: BetEvent[];
+  amount: number | null;
+  isBonus: boolean;
+  tipster: string | null;
+  cashout: boolean;
+  cashoutPrice: number | null;
   isContabilized?: boolean;
   date: Date;
+  systemOptions: boolean;
+  profit: number | null;
+  totalPayed: number | null;
+  totalWon: number | null;
   createdAt: Date;
   updatedAt: Date;
+  // Apuestas específicas por sistemas
+  trixie: number | null;
+  yankie: number | null;
+  superyankie: number | null;
+  heinz: number | null;
+  superheinz: number | null;
+  goliat: number | null;
+  block: number | null;
+  // Opciones de combinaciones
+  doubles: number | null;
+  triples: number | null;
+  fours: number | null;
+  fives: number | null;
+  sixes: number | null;
+  sevens: number | null;
+  eights: number | null;
 }
 
 export interface Bookie {

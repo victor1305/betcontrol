@@ -51,7 +51,7 @@
   "pending": "Pending",
   "won": "Won",
   "lost": "Lost",
-  "canceled": "Canceled",
+  "void": "Void",
   "confirm-email-title": "Thanks for registering on BETCONTROL!",
   "confirm-email-text": "We have sent a confirmation email to {email}",
   "confirm-email-resend-text": "If you haven't received the email, click on the button below",
